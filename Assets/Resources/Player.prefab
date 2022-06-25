@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4358954917876250426}
   - component: {fileID: 4358954917876250431}
   - component: {fileID: 4358954917876250368}
-  - component: {fileID: 4358954917876250428}
+  - component: {fileID: 8722764118348333327}
   - component: {fileID: 4358954917876250369}
   - component: {fileID: 4358954917876250430}
   m_Layer: 0
@@ -126,7 +126,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4358954917876250428
+--- !u!114 &8722764118348333327
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,14 +135,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 4358954917876250427}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06df1415a468e2f45a0fb8d9af00a7f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 92bf04ea54af65e44a5f1a130d871489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
-  _jumpSpeed: 5
+  _moveType: 4
+  _playerSpeed: 3
+  _addForceMoveMultiplier: 5
+  _isVertical: 0
+  _jumpType: 2
+  _jumpPower: 2.5
+  _maxJumpCount: 1
+  _point: {x: 0, y: 0}
+  _size: {x: 0.98, y: 1}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _isJumpDebug: 1
+  _isControlDrag: 1
+  _groundDrag: 1
+  _airDrag: 8
   _playerColorList:
-  - {r: 1, g: 0.2513188, b: 0, a: 1}
-  - {r: 1, g: 0.9584457, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.95686275, b: 0, a: 1}
 --- !u!114 &4358954917876250369
 MonoBehaviour:
   m_ObjectHideFlags: 0
