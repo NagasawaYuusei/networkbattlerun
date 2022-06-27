@@ -25,5 +25,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 print($"Player {view.OwnerActorNr} win");
             }
         }
+        if(photonEvent.Code == 3)
+        {
+            print($"切り替わった");
+            var cam = FindObjectOfType<CameraSwitcher>();
+            cam.ChangeDirection();
+        }
     }
 }
