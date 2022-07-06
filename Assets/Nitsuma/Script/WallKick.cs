@@ -16,6 +16,11 @@ namespace Nitsuma
         float h;
 
         Rigidbody2D _rb2d;
+        /// <summary>
+        /// •ÇƒLƒbƒN‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
+        /// </summary>
+        public bool IswallKick { get => _iswallKick;}
+
         // Start is called before the first frame update
         void Start()
         {

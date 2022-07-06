@@ -808,6 +808,7 @@ GameObject:
   - component: {fileID: 4358954917464427484}
   - component: {fileID: 8722764118474456531}
   - component: {fileID: 8722764118474456532}
+  - component: {fileID: 8722764118474456533}
   - component: {fileID: 4358954917464427485}
   - component: {fileID: 4358954917464427490}
   m_Layer: 0
@@ -862,3 +863,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpPower: 10
   _kickPower: 40
+--- !u!114 &8722764118474456533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4358954917464427495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f984ecd02f617c444b5960c29866d998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slidingTime: 0.5
+  _speed: 1
