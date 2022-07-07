@@ -32,6 +32,7 @@ public class PlayerMove2D : MonoBehaviour
     [Tooltip("ジャンプのカウント")] int _jumpCount;
     [Tooltip("ジャンプ後のタイマー")] float _jumptimer;
     Rigidbody2D _rb;
+    bool _isGrounded;
 
     PhotonView _view;
     SpriteRenderer _sprite;
@@ -58,6 +59,7 @@ public class PlayerMove2D : MonoBehaviour
 
     [Header("Ather")]
     [SerializeField] Color[] _playerColorList;
+    [SerializeField] bool _isOnline = true;
 
 
     void Start()
@@ -67,7 +69,10 @@ public class PlayerMove2D : MonoBehaviour
 
     void Update()
     {
-        if (!_view.IsMine) return;
+        if (!GameManager.Instance.IsDuringGame)
+            return;
+        if (_isOnline)
+            if (!_view.IsMine) return;
         State();
         PlayerInput();
         PlayerMoveSwitch();
@@ -86,6 +91,7 @@ public class PlayerMove2D : MonoBehaviour
         }
         _nowIsVertical = !_isVertical;
 
+        if (!_isOnline) return;
         _view = gameObject.GetPhotonView();
         _sprite = GetComponent<SpriteRenderer>();
 
@@ -107,7 +113,7 @@ public class PlayerMove2D : MonoBehaviour
         _centerPlayer = (Vector2)transform.position + _point;
         if (_isJumpDebug)
         {
-            Debug.Log(IsGrounded());
+            Debug.Log(_isGrounded);
         }
     }
 
@@ -296,7 +302,7 @@ public class PlayerMove2D : MonoBehaviour
         if (_isVertical || !_isControlDrag)
             return;
 
-        if (!IsGrounded() && _rb.velocity.y < 0)
+        if (!_isGrounded && _rb.velocity.y < 0)
         {
             _rb.gravityScale = _airDrag;
         }
@@ -310,18 +316,39 @@ public class PlayerMove2D : MonoBehaviour
     /// プレイヤーの設置判定
     /// </summary>
     /// <returns>地面に触れているかどうか</returns>
-    bool IsGrounded()
+    //bool IsGrounded()
+    //{
+    //    var collision = Physics2D.OverlapBox(_centerPlayer, _size, 0, _groundLayer);
+    //    if (collision && _jumptimer > 0.1f)
+    //    {
+    //        _jumpCount = 0;
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        _jumptimer += Time.deltaTime;
+    //        return false;
+    //    }
+    //}
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        var collision = Physics2D.OverlapBox(_centerPlayer, _size, 0, _groundLayer);
-        if (collision && _jumptimer > 0.1f)
+        Debug.Log(collision.gameObject.layer);
+        Debug.Log(_groundLayer);
+        if (collision.gameObject.layer == _groundLayer.value)
         {
             _jumpCount = 0;
-            return true;
+            _isGrounded = true;
         }
-        else
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.layer);
+        Debug.Log(_groundLayer);
+        if (collision.gameObject.layer == _groundLayer)
         {
-            _jumptimer += Time.deltaTime;
-            return false;
+            _isGrounded = false;
         }
     }
 
