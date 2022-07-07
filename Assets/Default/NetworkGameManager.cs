@@ -108,10 +108,14 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
          * 部屋を閉じないと、最大人数から減った時に次のユーザーが入ってきてしまう。
          * 現状のコードではユーザーが最大人数から減った際の追加入室を考慮していないため、追加入室させたい場合は実装を変更する必要がある。
          * **************************************************/
+        if(actorNumber == 1)
+        {
+            GameManager.Instance.MineOwner();
+        }
+
         if (actorNumber > PhotonNetwork.CurrentRoom.MaxPlayers - 1)
         {
-            Debug.Log("Closing Room");
-            PhotonNetwork.CurrentRoom.IsOpen = false;
+            GameManager.Instance.GameStart();
         }
     }
 
