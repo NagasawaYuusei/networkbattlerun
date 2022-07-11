@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     //Singlton化
     public static GameManager Instance;
+    CameraOutKill _killZone;
     void Awake()
     {
         if (Instance)
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             // すぐに Destroy されていないかもしれないので、リタイアした者を除いたプレイヤーリストを作る
             players = players.Where(x => x.GetPhotonView().OwnerActorNr != photonEvent.Sender).ToArray();
-            
+
             if (players.Length == 1)
             {
                 PhotonView view = players[0].GetPhotonView();
@@ -65,15 +66,21 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
         }
         //カメラが切り替わった時
-        if(photonEvent.Code == 3)
+        if (photonEvent.Code == 3)
         {
             print($"切り替わった");
             var cam = FindObjectOfType<CameraSwitcher>();
             cam.ChangeDirection();
         }
         //GameStart
-        if(photonEvent.Code == 4)
+        if (photonEvent.Code == 4)
         {
+            _killZone = FindObjectOfType<CameraOutKill>();
+            var Players = FindObjectsOfType<PlayerMove2D>();
+            foreach (var player in Players)
+            {
+                _killZone.AddPlayer(player);
+            }
             _gameStartButton.gameObject.SetActive(false);
             _isDuringGame = true;
         }
