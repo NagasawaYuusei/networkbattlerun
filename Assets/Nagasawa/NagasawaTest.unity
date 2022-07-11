@@ -1542,6 +1542,7 @@ GameObject:
   - component: {fileID: 708161287}
   - component: {fileID: 708161290}
   - component: {fileID: 708161289}
+  - component: {fileID: 708161291}
   m_Layer: 0
   m_Name: System
   m_TagString: Untagged
@@ -1613,6 +1614,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStartButton: {fileID: 1604050938}
+--- !u!114 &708161291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708161286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6f377d2ceedab428e3328f28477770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObjs: []
 --- !u!1 &773471155
 GameObject:
   m_ObjectHideFlags: 0
