@@ -11,6 +11,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     [SerializeField] string _playerPrefabName = "Prefab";
     /// <summary>プレイヤーを生成する場所を示すアンカーのオブジェクト</summary>
     [SerializeField] Transform[] _spawnPositions = default;
+    CameraOutKill _killZone;
 
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
 
     private void Start()
     {
+        _killZone = FindObjectOfType<CameraOutKill>();
         // Photon に接続する
         Connect("1.0"); // 1.0 はバージョン番号（同じバージョンを指定したクライアント同士が接続できる）
     }
@@ -102,13 +104,13 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
 
         // プレイヤーを生成し、他のクライアントと同期する
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, spawnPoint.rotation);
-
+        _killZone.AddPlayer(player.GetComponent<PlayerMove2D>());
         /* **************************************************
          * ルームに参加している人数が最大に達したら部屋を閉じる（参加を締め切る）
          * 部屋を閉じないと、最大人数から減った時に次のユーザーが入ってきてしまう。
          * 現状のコードではユーザーが最大人数から減った際の追加入室を考慮していないため、追加入室させたい場合は実装を変更する必要がある。
          * **************************************************/
-        if(actorNumber == 1)
+        if (actorNumber == 1)
         {
             GameManager.Instance.MineOwner();
         }

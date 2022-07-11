@@ -9,10 +9,7 @@ public class CameraOutKill : MonoBehaviour
     Camera targetCamera; // 映っているか判定するカメラへの参照
     [SerializeField]
     List<PlayerMove2D> targetObjs; // 映っているか判定するPlayerへの参照。inspectorで指定する
-    /// <summary>
-    /// 画面外にいったかどうか確認するPlayer
-    /// </summary>
-    public List<PlayerMove2D> TargetObjs { get => targetObjs; set => targetObjs = value; }
+    
 
     Rect rect = new Rect(-0.05f, -0.05f, 1, 1); // 画面内か判定するためのRect
 
@@ -25,6 +22,15 @@ public class CameraOutKill : MonoBehaviour
     void Update()
     {
         OutsideKill();
+    }
+
+    /// <summary>
+    /// 部屋に入ってきたPlayerをlistに入れる
+    /// </summary>
+    /// <param name="player"></param>
+    public void AddPlayer(PlayerMove2D player)
+    {
+        targetObjs.Add(player);
     }
 
     private void OutsideKill()
