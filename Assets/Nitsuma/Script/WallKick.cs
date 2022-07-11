@@ -10,6 +10,10 @@ namespace Nitsuma
         float _jumpPower = 5f;
         [SerializeField]
         float _kickPower = 5f;
+        [SerializeField]
+        string _objTag;
+        [SerializeField, Tooltip("壁を判定するレイヤー")]
+        LayerMask _layer;
 
         bool _iswallKick;
         float _kickedDir;
@@ -19,7 +23,7 @@ namespace Nitsuma
         /// <summary>
         /// 壁キックしているかどうか
         /// </summary>
-        public bool IswallKick { get => _iswallKick;}
+        public bool IswallKick { get => _iswallKick; }
 
         // Start is called before the first frame update
         void Start()
@@ -38,7 +42,7 @@ namespace Nitsuma
             if (h != 0)
             {
                 //ヒット判定にPysics2D.Raycastを使用
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, maxDistance);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, maxDistance, _layer);
 
                 if (hit.collider)
                 {
@@ -61,7 +65,7 @@ namespace Nitsuma
         }
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.name == "Ground" || (collision.gameObject.tag == "Finish" && _iswallKick))
+            if (collision.gameObject.tag == _objTag)
             {
                 _iswallKick = false;
             }
