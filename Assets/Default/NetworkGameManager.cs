@@ -120,6 +120,15 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
             GameManager.Instance.GameStart();
         }
     }
+    void LeftRoomPlayer()
+    {
+        var players = GameObject.FindGameObjectsWithTag("Player");
+
+        if(players.Length >= 1)
+        {
+            Debug.Log("GameSet");
+        }
+    }
 
     /* ***********************************************
      * 
@@ -208,6 +217,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log("OnPlayerLeftRoom: " + otherPlayer.NickName);
+        LeftRoomPlayer();
     }
 
     /// <summary>マスタークライアントが変わった時</summary>
