@@ -40,7 +40,9 @@ public class PlayerMove2D : MonoBehaviour
     [Header("MoveSettings")]
     [Tooltip("移動のタイプ"), SerializeField] MoveType _moveType = MoveType.AddForce;
     [Tooltip("プレイヤーのスピード"), SerializeField] float _playerSpeed = 3;
-    [Tooltip("AddForce時の速度乗数"), SerializeField] float _addForceMoveMultiplier = 5f;
+    [Tooltip("AddForce時の速度乗数")] float _addForceMoveMultiplier;
+    [Tooltip("AddForce時の速度乗数(加速)"), SerializeField] float _accelerationMultiplication = 0.1f;
+    [Tooltip("AddForce時の速度乗数(減速)"), SerializeField] float decelerationMultiplication = 10f;
     [Tooltip("上下移動に対応するかどうか"), SerializeField] bool _isVertical = false;
 
     [Header("JumpSettings")]
@@ -252,6 +254,8 @@ public class PlayerMove2D : MonoBehaviour
     /// </summary>
     void AddForceMove()
     {
+        _addForceMoveMultiplier = (_inputHorizontal == 0)? decelerationMultiplication : _accelerationMultiplication;
+
         if (_rb && !_isVertical)
         {
             Vector2 vec = new Vector2(_inputHorizontal * _playerSpeed * Time.deltaTime * 250, 0);
