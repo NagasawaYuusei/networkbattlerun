@@ -33,14 +33,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void MineOwner()
     {
-        print("a");
         _gameStartButton.gameObject.SetActive(true);
         _owner = true;
     }
 
     public void GameStart()
     {
-        _gameStartButton.gameObject.SetActive(false);
         Debug.Log("Closing Room");
         PhotonNetwork.CurrentRoom.IsOpen = false;
         //4 => GameStart
@@ -76,6 +74,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         //GameStart
         if(photonEvent.Code == 4)
         {
+            _gameStartButton.gameObject.SetActive(false);
             _isDuringGame = true;
         }
     }
