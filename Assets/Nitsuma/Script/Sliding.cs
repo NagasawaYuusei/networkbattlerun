@@ -31,7 +31,7 @@ public class Sliding : MonoBehaviour
             _lastX = h;
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && dir != Vector2.zero && !_isSliding)
+        if (Input.GetKeyDown(KeyCode.S) && dir != Vector2.zero && !_isSliding)
         {
             _isSliding = true;
             StartCoroutine(DelayMethod(_slidingTime, () => _isSliding = false));
