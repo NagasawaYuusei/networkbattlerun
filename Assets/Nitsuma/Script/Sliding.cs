@@ -39,7 +39,7 @@ public class Sliding : MonoBehaviour
 
         if (_isSliding)
         {
-            _rb2d.velocity += new Vector2(_lastX, 0) * _speed;
+            _rb2d.velocity += new Vector2(_lastX, 0) * _speed * Time.deltaTime;
         }
     }
 
