@@ -46,22 +46,21 @@ namespace Nitsuma
 
                 if (hit.collider)
                 {
-                    WallKickJump();
+                    if (Input.GetButtonDown("Jump"))
+                    {
+                        WallKickJump();
+                    }
                 }
             }
             Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.green);
+        }
 
+        private void FixedUpdate()
+        {
             if (_iswallKick)
             {
-                if (h == 0 || h == _kickedDir)
-                    _rb2d.AddForce(new Vector2(_kickPower * _kickedDir * -1, 0));
-                else
-                {
-                    return;
-                }
+                _rb2d.AddForce(new Vector2(_kickPower * _kickedDir * -1, 0));
             }
-
-
         }
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -73,15 +72,12 @@ namespace Nitsuma
 
         void WallKickJump()
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                _rb2d.AddForce(new Vector2(_kickPower * h * -1, _jumpPower), ForceMode2D.Impulse);
-                _iswallKick = true;
-                _kickedDir = h;
-                var scale = transform.localScale;
-                scale.x *= -1;
-                transform.localScale = scale;
-            }
+            _rb2d.AddForce(new Vector2(_kickPower * h * -1, _jumpPower), ForceMode2D.Impulse);
+            _iswallKick = true;
+            _kickedDir = h;
+            var scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
         }
     }
 }
