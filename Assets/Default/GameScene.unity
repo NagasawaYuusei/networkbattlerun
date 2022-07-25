@@ -244,7 +244,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -936,7 +936,7 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_XDamping: 4
+  m_XDamping: 0
   m_YDamping: 1
   m_ZDamping: 1
   m_TargetMovementOnly: 1
@@ -1662,6 +1662,8 @@ MonoBehaviour:
   _spawnPositions:
   - {fileID: 934779996}
   - {fileID: 348932692}
+  - {fileID: 472655775}
+  - {fileID: 1306866689}
 --- !u!4 &708161288
 Transform:
   m_ObjectHideFlags: 0
@@ -1760,7 +1762,7 @@ MonoBehaviour:
   m_Follow: {fileID: 419926258}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 8
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
