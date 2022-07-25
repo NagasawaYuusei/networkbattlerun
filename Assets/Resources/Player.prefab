@@ -125,8 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92bf04ea54af65e44a5f1a130d871489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSpeed: 8
-  _accelerationMultiplication: 3
+  _playerSpeed: 15
+  _accelerationMultiplication: 2
   decelerationMultiplication: 10
   _jumpPower: 1
   _maxJumpCount: 1
@@ -136,6 +136,8 @@ MonoBehaviour:
   _playerColorList:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 1, g: 0.95686275, b: 0, a: 1}
+  - {r: 0.04489374, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0.6792453, b: 0.073283054, a: 1}
   _isOnline: 1
 --- !u!114 &4358954917876250369
 MonoBehaviour:
