@@ -10,6 +10,7 @@ public class CameraSwitcher : MonoBehaviour
 	[SerializeField] Transform _target;
     MoveDirection _moveDirection = MoveDirection.Right;
     PlayerMoveDirection[] _playerRanking;//手前に存在しているオブジェクトが１位
+    [SerializeField] float _offsetX = 3f;
 
     public MoveDirection MoveDirection { get => _moveDirection;}
 
@@ -28,12 +29,12 @@ public class CameraSwitcher : MonoBehaviour
         if (_moveDirection == MoveDirection.Right)
         {
             _playerRanking = players.OrderByDescending(x => x.transform.position.x).ToArray();
-            _target.position = _playerRanking.FirstOrDefault().transform.position;
+            _target.position = _playerRanking.FirstOrDefault().transform.position + new Vector3(_offsetX, 0);
         }
         else
         {
             _playerRanking = players.OrderBy(x => x.transform.position.x).ToArray();
-            _target.position = _playerRanking.FirstOrDefault().transform.position;
+            _target.position = _playerRanking.FirstOrDefault().transform.position - new Vector3(_offsetX, 0);
         }
 
         // カメラは先頭のプレイヤーを追う
