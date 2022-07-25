@@ -36,13 +36,15 @@ public class Sliding : MonoBehaviour
             _isSliding = true;
             StartCoroutine(DelayMethod(_slidingTime, () => _isSliding = false));
         }
-
-        if (_isSliding)
-        {
-            _rb2d.velocity += new Vector2(_lastX, 0) * _speed * Time.deltaTime;
-        }
     }
 
+    void FixedUpdate()
+    {
+        if (_isSliding)
+        {
+            _rb2d.AddForce(new Vector2(_lastX * _speed, 0));
+        }
+    }
     IEnumerator DelayMethod(float seconds, Action action)
     {
         yield return new WaitForSeconds(seconds);
