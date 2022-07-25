@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 174989800}
   - component: {fileID: 174989799}
   - component: {fileID: 174989798}
-  m_Layer: 3
+  m_Layer: 4
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 3a9b88b7189af87488192ce13c077ad8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -1505,7 +1505,7 @@ GameObject:
   - component: {fileID: 702472960}
   - component: {fileID: 702472959}
   - component: {fileID: 702472958}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Square (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1580,7 +1580,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 3a9b88b7189af87488192ce13c077ad8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.073634356, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -2702,7 +2702,7 @@ GameObject:
   - component: {fileID: 1366983974}
   - component: {fileID: 1366983973}
   - component: {fileID: 1366983972}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Square (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2777,7 +2777,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 3a9b88b7189af87488192ce13c077ad8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
