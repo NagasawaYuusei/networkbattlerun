@@ -292,7 +292,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 0
   m_BlendUpdateMethod: 0
   m_DefaultBlend:
     m_Style: 1
@@ -1676,6 +1676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 419926258}
+  _offsetX: 3
 --- !u!114 &708161290
 MonoBehaviour:
   m_ObjectHideFlags: 0
