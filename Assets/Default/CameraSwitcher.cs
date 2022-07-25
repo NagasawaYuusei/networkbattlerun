@@ -11,15 +11,16 @@ public class CameraSwitcher : MonoBehaviour
     MoveDirection _moveDirection = MoveDirection.Right;
     PlayerMoveDirection[] _playerRanking;//手前に存在しているオブジェクトが１位
     [SerializeField] float _offsetX = 3f;
+    [SerializeField] float _changePos = 3f;
 
-    public MoveDirection MoveDirection { get => _moveDirection;}
+    public MoveDirection MoveDirection { get => _moveDirection; }
 
     private void Update()
     {
         var players = FindObjectsOfType<PlayerMoveDirection>();
 
         //プレイヤーを探して、誰もいなければreturn
-        if(players.Length <= 0) return;
+        if (players.Length <= 0) return;
 
         //CameraSwicherに保存された移動方向と同じ方向に進むプレイヤーの条件で再検索
         players = players.Where(x => x.MoveDirection == _moveDirection).ToArray();
@@ -29,12 +30,14 @@ public class CameraSwitcher : MonoBehaviour
         if (_moveDirection == MoveDirection.Right)
         {
             _playerRanking = players.OrderByDescending(x => x.transform.position.x).ToArray();
-            _target.position = _playerRanking.FirstOrDefault().transform.position + new Vector3(_offsetX, 0);
+            _target.position
+                = Vector3.Lerp(_target.position, _playerRanking.FirstOrDefault().transform.position + new Vector3(_offsetX, 0), _changePos * Time.deltaTime);
         }
         else
         {
             _playerRanking = players.OrderBy(x => x.transform.position.x).ToArray();
-            _target.position = _playerRanking.FirstOrDefault().transform.position - new Vector3(_offsetX, 0);
+            _target.position 
+                = Vector3.Lerp(_target.position, _playerRanking.FirstOrDefault().transform.position - new Vector3(_offsetX, 0), _changePos * Time.deltaTime);
         }
 
         // カメラは先頭のプレイヤーを追う
@@ -43,13 +46,13 @@ public class CameraSwitcher : MonoBehaviour
             _target.position = _target.position;
         }
     }
-    
+
     /// <summary>
     /// 移動方向を変更する
     /// </summary>
     public void ChangeDirection()
     {
-        if(_moveDirection == MoveDirection.Left)
+        if (_moveDirection == MoveDirection.Left)
         {
             _moveDirection = MoveDirection.Right;
         }
