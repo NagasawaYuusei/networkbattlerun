@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Nitsuma/Scene/NitsumaTest.unity
-    guid: 2719efb5c5ae94547a67cc42f717f341
+    path: Assets/Default/GameScene.unity
+    guid: 84d8d2b9d72b8964c884164e5d338669
   m_configObjects: {}

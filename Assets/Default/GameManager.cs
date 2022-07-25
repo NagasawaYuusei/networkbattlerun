@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     bool _owner;
     bool _isDuringGame;
     [SerializeField] Button _gameStartButton;
+    //[SerializeField] Text _winnerText;
 
     public bool Owner => _owner;
     public bool IsDuringGame => _isDuringGame;
