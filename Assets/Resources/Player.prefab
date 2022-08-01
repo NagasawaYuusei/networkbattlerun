@@ -128,9 +128,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92bf04ea54af65e44a5f1a130d871489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSpeed: 15
+  _normalSpeed: 15
+  _acceleratorSpeed: 2
   _accelerationMultiplication: 2
-  decelerationMultiplication: 10
+  _decelerationMultiplication: 10
+  _maxAccelerationValue: 100
+  _changeSpeedMultiplication: 10
   _jumpPower: 1
   _maxJumpCount: 1
   _isControlDrag: 1
@@ -219,9 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3a47d13f120d6488b6e39230228880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpPower: 5
   _kickPower: 5
-  _objTag: 
+  _objTag: Untagged
   _layer:
     serializedVersion: 2
     m_Bits: 8
@@ -266,6 +268,7 @@ MonoBehaviour:
   _isDebug: 1
   _range: 7
   _errorRange: 1
+  _grappleSpeed: 20
   _roofLayer:
     serializedVersion: 2
     m_Bits: 16

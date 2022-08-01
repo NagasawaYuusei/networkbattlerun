@@ -15,6 +15,7 @@ public class PlayerMove2D : MonoBehaviour
     PhotonView _view;
     SpriteRenderer _sprite;
     Nitsuma.WallKick _wallkick;
+    Grapple _grapple;
     Sliding _sliding;
 
     [Header("MoveSettings")]
@@ -77,6 +78,7 @@ public class PlayerMove2D : MonoBehaviour
         _view = gameObject.GetPhotonView();
         _sprite = GetComponent<SpriteRenderer>();
         _wallkick = GetComponent<Nitsuma.WallKick>();
+        _grapple = GetComponent<Grapple>();
         _sliding = GetComponent<Sliding>();
 
         if (PhotonNetwork.IsConnected)
@@ -104,7 +106,7 @@ public class PlayerMove2D : MonoBehaviour
     /// </summary>
     void AddForceMove()
     {
-        if(_wallkick.IswallKick || _sliding.IsSliding) { return; }
+        if(_wallkick.IswallKick || _sliding.IsSliding || _grapple.CurrentGrapple) { return; }
 
         _addForceMoveMultiplier = (_inputHorizontal == 0) ? _decelerationMultiplication : _accelerationMultiplication;
 
