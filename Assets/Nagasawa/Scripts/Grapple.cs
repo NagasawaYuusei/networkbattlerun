@@ -12,6 +12,7 @@ public class Grapple : MonoBehaviour
     Rigidbody2D _rb;
     Vector3 _hitPoint;
     Vector3 _playerPos;
+    Vector3? _playerCurrentPos;
 
     LineRenderer _lr;
     DistanceJoint2D _dj;
@@ -40,7 +41,15 @@ public class Grapple : MonoBehaviour
         if (_currentGrapple)
         {
             DrawLine();
-            GrappleMove();
+        }
+
+        if(_currentGrapple)
+        {
+            if(_playerCurrentPos == transform.position)
+            {
+                _currentGrapple = false;
+                FinishGrapple();
+            }
         }
 
         if (_currentGrapple && OverGrapple(_grappleVec))
@@ -63,6 +72,15 @@ public class Grapple : MonoBehaviour
 
     }
 
+    void FixedUpdate()
+    {
+        if (_currentGrapple)
+        {
+            DrawLine();
+            GrappleMove();
+        }
+    }
+
     void StartGrapple()
     {
         RaycastHit2D hit;
@@ -79,7 +97,7 @@ public class Grapple : MonoBehaviour
         _hitPoint = hit.point;
         float distance = Vector2.Distance(_hitPoint, transform.position) - _errorRange;
 
-        if (hit)
+        if (hit && distance > 0.5f)
         {
             _playerPos = transform.position;
             _currentGrappleTip = Instantiate(_grappleTip, _hitPoint, Quaternion.identity);
@@ -97,14 +115,16 @@ public class Grapple : MonoBehaviour
 
     void GrappleMove()
     {
-        Vector2 vec = new Vector2(_grappleVec.x * _grappleSpeed, 0);
-        _rb.AddForce(vec);
+        Vector2 vec = new Vector2(_grappleVec.x * _grappleSpeed, _rb.velocity.y);
+        //_rb.AddForce(vec);
+        _rb.velocity = vec;
     }
 
     void FinishGrapple()
     {
         _dj.enabled = false;
         _lr.enabled = false;
+        _playerCurrentPos = null;
         Destroy(_currentGrappleTip);
     }
 
@@ -117,6 +137,7 @@ public class Grapple : MonoBehaviour
     bool OverGrapple(Vector2 vec)
     {
         bool isRight = vec.x > 0;
+        _playerCurrentPos = transform.position;
         if (isRight)
         {
             if (transform.position.x > _hitPoint.x + ((_hitPoint.x - _playerPos.x) / 2))
