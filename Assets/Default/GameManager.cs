@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     //Singlton化
     public static GameManager Instance;
     CameraOutKill _killZone;
+
+    [SerializeField]HorizontalLayoutGroup _horizontalLayoutGroup;
+
     void Awake()
     {
         if (Instance)
@@ -84,6 +87,16 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
             _gameStartButton.gameObject.SetActive(false);
             _isDuringGame = true;
+        }
+        //Sliderの同期（作成時）
+        if(photonEvent.Code == 5)
+        {
+            var s = FindObjectsOfType<Slider>();
+
+            foreach(var slider in s)
+            {
+                slider.transform.SetParent(_horizontalLayoutGroup.transform);
+            }
         }
     }
 }
