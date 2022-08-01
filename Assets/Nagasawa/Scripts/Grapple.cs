@@ -7,16 +7,21 @@ public class Grapple : MonoBehaviour
     [SerializeField] bool _isDebug;
     [SerializeField] float _range;
     [SerializeField] float _errorRange;
+    [SerializeField] float _grappleSpeed = 20;
     [SerializeField] LayerMask _roofLayer;
     Rigidbody2D _rb;
     Vector3 _hitPoint;
+    Vector3 _playerPos;
 
     LineRenderer _lr;
     DistanceJoint2D _dj;
     [SerializeField] GameObject _grappleTip;
     GameObject _currentGrappleTip;
+    Vector2 _grappleVec;
 
     bool _currentGrapple;
+
+    public bool CurrentGrapple => _currentGrapple;
 
     void Start()
     {
@@ -27,25 +32,26 @@ public class Grapple : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.LeftControl))//GetButtonに変えたい
+        if (Input.GetKeyDown(KeyCode.LeftControl))//GetButtonに変えたい
         {
             StartGrapple();
         }
 
-        if (_currentGrapple && Input.GetKey(KeyCode.LeftControl))
+        if (_currentGrapple)
         {
             DrawLine();
+            GrappleMove();
         }
 
-        if(_currentGrapple && Input.GetKeyUp(KeyCode.LeftControl))
+        if (_currentGrapple && OverGrapple(_grappleVec))
         {
             _currentGrapple = false;
             FinishGrapple();
         }
 
-        if(_isDebug)
+        if (_isDebug)
         {
-            if(_rb.velocity.x >= 0)
+            if (_rb.velocity.x >= 0)
             {
                 Debug.DrawRay(transform.position, (Vector2.up + Vector2.right) * _range);
             }
@@ -63,16 +69,19 @@ public class Grapple : MonoBehaviour
         if (_rb.velocity.x >= 0)
         {
             hit = Physics2D.Raycast(transform.position, transform.up + transform.right, _range, _roofLayer);
+            _grappleVec = Vector2.right;
         }
         else
         {
             hit = Physics2D.Raycast(transform.position, transform.up - transform.right, _range, _roofLayer);
+            _grappleVec = Vector2.left;
         }
         _hitPoint = hit.point;
-        float distance =  Vector2.Distance(_hitPoint, transform.position) - _errorRange; 
+        float distance = Vector2.Distance(_hitPoint, transform.position) - _errorRange;
 
-        if(hit)
+        if (hit)
         {
+            _playerPos = transform.position;
             _currentGrappleTip = Instantiate(_grappleTip, _hitPoint, Quaternion.identity);
             _dj.enabled = true;
             _lr.enabled = true;
@@ -86,6 +95,12 @@ public class Grapple : MonoBehaviour
         }
     }
 
+    void GrappleMove()
+    {
+        Vector2 vec = new Vector2(_grappleVec.x * _grappleSpeed, 0);
+        _rb.AddForce(vec);
+    }
+
     void FinishGrapple()
     {
         _dj.enabled = false;
@@ -97,5 +112,25 @@ public class Grapple : MonoBehaviour
     {
         _lr.SetPosition(0, _hitPoint);
         _lr.SetPosition(1, transform.position);
+    }
+
+    bool OverGrapple(Vector2 vec)
+    {
+        bool isRight = vec.x > 0;
+        if (isRight)
+        {
+            if (transform.position.x > _hitPoint.x + ((_hitPoint.x - _playerPos.x) / 2))
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if (transform.position.x < _hitPoint.x - ((_playerPos.x - _hitPoint.x) / 2))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
