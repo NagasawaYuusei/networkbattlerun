@@ -10,9 +10,12 @@ public class PlayerMove2D : MonoBehaviour
     [Tooltip("加速入力")] bool _isAccelerationInput;
     Rigidbody2D _rb;
     bool _isGrounded;
+    public bool IsGrounded { get => _isGrounded; }
 
     PhotonView _view;
     SpriteRenderer _sprite;
+    Nitsuma.WallKick _wallkick;
+    Sliding _sliding;
 
     [Header("MoveSettings")]
     [Tooltip("通常時のスピード"), SerializeField] float _normalSpeed = 3;
@@ -38,6 +41,7 @@ public class PlayerMove2D : MonoBehaviour
     [SerializeField] Color[] _playerColorList;
     [SerializeField] bool _isOnline = true;
 
+    
 
     void Start()
     {
@@ -72,6 +76,8 @@ public class PlayerMove2D : MonoBehaviour
         if (!_isOnline) return;
         _view = gameObject.GetPhotonView();
         _sprite = GetComponent<SpriteRenderer>();
+        _wallkick = GetComponent<Nitsuma.WallKick>();
+        _sliding = GetComponent<Sliding>();
 
         if (PhotonNetwork.IsConnected)
         {
@@ -98,6 +104,8 @@ public class PlayerMove2D : MonoBehaviour
     /// </summary>
     void AddForceMove()
     {
+        if(_wallkick.IswallKick || _sliding.IsSliding) { return; }
+
         _addForceMoveMultiplier = (_inputHorizontal == 0) ? _decelerationMultiplication : _accelerationMultiplication;
 
         if (_rb)
