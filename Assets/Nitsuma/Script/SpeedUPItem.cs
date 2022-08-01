@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestItem : Itembase
+public class SpeedUPItem : Itembase
 {
     public override void GetItem()
     {
-        Debug.Log("b");
+        Debug.Log("a");
     }
 }

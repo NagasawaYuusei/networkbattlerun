@@ -4,11 +4,5 @@ using UnityEngine;
 
 public abstract class Itembase : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        GetItem();
-        Destroy(gameObject);
-    }
-
-    protected abstract void GetItem();
+    public abstract void GetItem();
 }
