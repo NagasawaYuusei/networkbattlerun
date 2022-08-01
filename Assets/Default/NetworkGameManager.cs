@@ -108,7 +108,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
         Debug.Log("My ActorNumber: " + actorNumber);
         Transform spawnPoint = _spawnPositions[actorNumber - 1];
 
-        SpawnSlider();
+        //SpawnSlider();
         // プレイヤーを生成し、他のクライアントと同期する
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, spawnPoint.rotation);
 

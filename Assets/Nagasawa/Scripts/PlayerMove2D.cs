@@ -1,5 +1,7 @@
 using UnityEngine;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.UI;
 
 public class PlayerMove2D : MonoBehaviour
@@ -26,11 +28,11 @@ public class PlayerMove2D : MonoBehaviour
     [Tooltip("AddForce時の速度乗数")] float _addForceMoveMultiplier;
     [Tooltip("AddForce時の速度乗数(加速)"), SerializeField] float _accelerationMultiplication = 0.1f;
     [Tooltip("AddForce時の速度乗数(減速)"), SerializeField] float _decelerationMultiplication = 10f;
-    public float _accelerationValue = 0;
+    float _accelerationValue = 0;
     [SerializeField] float _maxAccelerationValue = 100f;
     [SerializeField, Tooltip("加速仕切るまでの速度")] float _changeSpeed = 10f;
     [SerializeField, Tooltip("accelerationValueを減らす速度")] float _changeSpeedValue = 10f;
-    public Slider _slider;
+    [SerializeField] Slider _slider;
     [SerializeField, Tooltip("changeSpeedを増加させる値"), Range(0, 100)] float _addValue = 3f;
 
     [Header("JumpSettings")]
@@ -79,14 +81,16 @@ public class PlayerMove2D : MonoBehaviour
     void SetUp()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _currentSpeed = _normalSpeed;
 
         if (!_isOnline) return;
+
         _view = gameObject.GetPhotonView();
         _sprite = GetComponent<SpriteRenderer>();
         _wallkick = GetComponent<Nitsuma.WallKick>();
         _grapple = GetComponent<Grapple>();
         _sliding = GetComponent<Sliding>();
+        _slider.value = _accelerationValue;
+        _currentSpeed = _normalSpeed;
 
         if (_isAccelerator)
             _accelerationValue = _maxAccelerationValue;
@@ -100,20 +104,26 @@ public class PlayerMove2D : MonoBehaviour
             _sprite.color = _playerColorList[Random.Range(0, _playerColorList.Length)];
         }
 
-        var s = FindObjectsOfType<Slider>();
+        //Sliderをセットするのイベントを呼ぶ
+        RaiseEventOptions target = new RaiseEventOptions();
+        target.Receivers = ReceiverGroup.All;
+        SendOptions sendOptions = new SendOptions();
+        PhotonNetwork.RaiseEvent(5, null, target, sendOptions);
 
-        foreach (var slider in s)
-        {
-            var view = slider.gameObject.GetPhotonView();
+        //var s = FindObjectsOfType<Slider>();
 
-            if (view.IsMine)
-            {
-                _slider = slider;
-                _slider.value = 0;
-                //Debug.LogError(view.ViewID);
-                return;
-            }
-        }
+        //foreach (var slider in s)
+        //{
+        //    var view = slider.gameObject.GetPhotonView();
+
+        //    if (view.IsMine)
+        //    {
+        //        _slider = slider;
+        //        _slider.value = 0;
+        //        //Debug.LogError(view.ViewID);
+        //        return;
+        //    }
+        //}
     }
 
     /// <summary>

@@ -12,18 +12,20 @@ public class AccelerationArea : MonoBehaviour
     {
         _isCheck = CheckArea();
     }
+    private void OnValidate()
+    {
+        this.transform.localScale = new Vector3(_area.x, _area.y, 1);
+    }
     bool CheckArea()
     {
         var check = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(_area.x, _area.y), 0);
 
         foreach(var go in check)
         {
-            //var p = go.GetComponent<PlayerMove2D>();
             var view = go.gameObject.GetPhotonView();
 
             if(view && view.IsMine)
             {
-                //p.AddAccelerationValue();
                 view.RPC("IncreaseAccelerationValue", RpcTarget.All); //‘Sˆõ‚É’m‚ç‚¹‚é
                 return true;
             }
