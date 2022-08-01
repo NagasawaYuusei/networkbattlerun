@@ -7,8 +7,6 @@ namespace Nitsuma
     public class WallKick : MonoBehaviour
     {
         [SerializeField]
-        float _jumpPower = 5f;
-        [SerializeField]
         float _kickPower = 5f;
         [SerializeField]
         string _objTag;
@@ -72,7 +70,7 @@ namespace Nitsuma
 
         void WallKickJump()
         {
-            _rb2d.AddForce(new Vector2(_kickPower * h * -1, _jumpPower), ForceMode2D.Impulse);
+            _rb2d.AddForce(new Vector2(_kickPower * h * -1, 0), ForceMode2D.Impulse);
             _iswallKick = true;
             _kickedDir = h;
             var scale = transform.localScale;

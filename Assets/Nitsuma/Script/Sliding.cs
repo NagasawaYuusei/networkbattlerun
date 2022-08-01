@@ -10,6 +10,7 @@ public class Sliding : MonoBehaviour
     bool _isSliding;
     float _lastX = 0f;
     Rigidbody2D _rb2d;
+    PlayerMove2D _playerMove;
     /// <summary>
     /// スライディングしているかどうか
     /// </summary>
@@ -19,6 +20,7 @@ public class Sliding : MonoBehaviour
     void Start()
     {
         _rb2d = GetComponent<Rigidbody2D>();
+        _playerMove = GetComponent<PlayerMove2D>();
     }
 
     // Update is called once per frame
@@ -33,6 +35,7 @@ public class Sliding : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S) && dir != Vector2.zero && !_isSliding)
         {
+            if (!_playerMove.IsGrounded) { return; }
             _isSliding = true;
             StartCoroutine(DelayMethod(_slidingTime, () => _isSliding = false));
         }
