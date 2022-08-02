@@ -1,5 +1,8 @@
 using UnityEngine;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.UI;
 
 public class PlayerMove2D : MonoBehaviour
 {
@@ -27,7 +30,10 @@ public class PlayerMove2D : MonoBehaviour
     [Tooltip("AddForce時の速度乗数(減速)"), SerializeField] float _decelerationMultiplication = 10f;
     float _accelerationValue = 0;
     [SerializeField] float _maxAccelerationValue = 100f;
-    [SerializeField] float _changeSpeedMultiplication = 10f;
+    [SerializeField, Tooltip("加速仕切るまでの速度")] float _changeSpeed = 10f;
+    [SerializeField, Tooltip("accelerationValueを減らす速度")] float _changeSpeedValue = 10f;
+    [SerializeField] Slider _slider;
+    [SerializeField, Tooltip("changeSpeedを増加させる値"), Range(0, 100)] float _addValue = 3f;
 
     [Header("JumpSettings")]
     [Tooltip("プレイヤーのジャンプパワー"), SerializeField] float _jumpPower = 2.5f;
@@ -42,7 +48,10 @@ public class PlayerMove2D : MonoBehaviour
     [SerializeField] Color[] _playerColorList;
     [SerializeField] bool _isOnline = true;
 
-    
+    [Header("Debug")]
+    [SerializeField] bool _isAccelerator;
+
+
 
     void Start()
     {
@@ -72,14 +81,19 @@ public class PlayerMove2D : MonoBehaviour
     void SetUp()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _currentSpeed = _normalSpeed;
 
         if (!_isOnline) return;
+
         _view = gameObject.GetPhotonView();
         _sprite = GetComponent<SpriteRenderer>();
         _wallkick = GetComponent<Nitsuma.WallKick>();
         _grapple = GetComponent<Grapple>();
         _sliding = GetComponent<Sliding>();
+        _slider.value = _accelerationValue;
+        _currentSpeed = _normalSpeed;
+
+        if (_isAccelerator)
+            _accelerationValue = _maxAccelerationValue;
 
         if (PhotonNetwork.IsConnected)
         {
@@ -89,6 +103,27 @@ public class PlayerMove2D : MonoBehaviour
         {
             _sprite.color = _playerColorList[Random.Range(0, _playerColorList.Length)];
         }
+
+        //Sliderをセットするのイベントを呼ぶ
+        RaiseEventOptions target = new RaiseEventOptions();
+        target.Receivers = ReceiverGroup.All;
+        SendOptions sendOptions = new SendOptions();
+        PhotonNetwork.RaiseEvent(5, null, target, sendOptions);
+
+        //var s = FindObjectsOfType<Slider>();
+
+        //foreach (var slider in s)
+        //{
+        //    var view = slider.gameObject.GetPhotonView();
+
+        //    if (view.IsMine)
+        //    {
+        //        _slider = slider;
+        //        _slider.value = 0;
+        //        //Debug.LogError(view.ViewID);
+        //        return;
+        //    }
+        //}
     }
 
     /// <summary>
@@ -106,14 +141,14 @@ public class PlayerMove2D : MonoBehaviour
     /// </summary>
     void AddForceMove()
     {
-        if(_wallkick.IswallKick || _sliding.IsSliding || _grapple.CurrentGrapple) { return; }
+        if (_wallkick.IswallKick || _sliding.IsSliding || _grapple.CurrentGrapple) { return; }
 
         _addForceMoveMultiplier = (_inputHorizontal == 0) ? _decelerationMultiplication : _accelerationMultiplication;
 
         if (_rb)
         {
             Vector2 vec = new Vector2(_inputHorizontal * _currentSpeed, 0);
-            _rb.AddForce(_addForceMoveMultiplier * (vec - new Vector2(_rb.velocity.x,0)));
+            _rb.AddForce(_addForceMoveMultiplier * (vec - new Vector2(_rb.velocity.x, 0)));
         }
         else
         {
@@ -137,17 +172,33 @@ public class PlayerMove2D : MonoBehaviour
     /// 加速ゲージを増加させる
     /// </summary>
     /// <param name="value"></param>
-    public void AddAccelerationValue(float value)
+    [PunRPC]
+    public void IncreaseAccelerationValue()
     {
-        if (value < 0) return; //負の値が送られて来たらreturn
+        _accelerationValue += _addValue * Time.deltaTime;
 
-        if(_accelerationValue >= _maxAccelerationValue) //ゲージが上限に達した時
+        if (_accelerationValue >= _maxAccelerationValue) //ゲージが上限に達した時
         {
             _accelerationValue = _maxAccelerationValue;
-            return;
         }
 
-        _accelerationValue += value;
+        _view.RPC("ChangeSlider", RpcTarget.All); //全員
+    }
+    [PunRPC]
+    void DecreaseAccelerationValue()
+    {
+        _accelerationValue -= Time.deltaTime * _changeSpeedValue;
+
+        _view.RPC("ChangeSlider", RpcTarget.All); //全員
+    }
+
+    [PunRPC]
+    void ChangeSlider()
+    {
+        if (_slider)
+        {
+            _slider.value = _accelerationValue / _maxAccelerationValue;
+        }
     }
 
     /// <summary>
@@ -159,28 +210,29 @@ public class PlayerMove2D : MonoBehaviour
         {
             _accelerationValue = 0;
         }
-        else if(_isAccelerationInput)
+        else if (_isAccelerationInput)
         {
             if (_currentSpeed < _acceleratorSpeed)
             {
-                _currentSpeed += Time.deltaTime * _changeSpeedMultiplication;
+                _currentSpeed += Time.deltaTime * _changeSpeed;
 
-                if(_currentSpeed >= _acceleratorSpeed)
+                if (_currentSpeed >= _acceleratorSpeed)
                 {
                     _currentSpeed = _acceleratorSpeed;
                 }
             }
 
-            _accelerationValue -= Time.deltaTime * _changeSpeedMultiplication;
+            if (!_isAccelerator)
+                _view.RPC("DecreaseAccelerationValue", RpcTarget.All); //全員に知らせる
 
             return;
         }
 
-        if(_currentSpeed > _normalSpeed)
+        if (_currentSpeed > _normalSpeed)
         {
-            _currentSpeed -= Time.deltaTime * _changeSpeedMultiplication;
+            _currentSpeed -= Time.deltaTime * _changeSpeed;
 
-            if(_currentSpeed <= _normalSpeed)
+            if (_currentSpeed <= _normalSpeed)
             {
                 _currentSpeed = _normalSpeed;
             }
