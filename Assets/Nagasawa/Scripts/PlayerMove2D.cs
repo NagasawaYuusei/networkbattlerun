@@ -32,7 +32,7 @@ public class PlayerMove2D : MonoBehaviour
     [SerializeField] float _maxAccelerationValue = 100f;
     [SerializeField, Tooltip("加速仕切るまでの速度")] float _changeSpeed = 10f;
     [SerializeField, Tooltip("accelerationValueを減らす速度")] float _changeSpeedValue = 10f;
-    [SerializeField] Slider _slider;
+    Slider _slider;
     [SerializeField, Tooltip("changeSpeedを増加させる値"), Range(0, 100)] float _addValue = 3f;
 
     [Header("JumpSettings")]
@@ -66,13 +66,13 @@ public class PlayerMove2D : MonoBehaviour
             if (!_view.IsMine) return;
         PlayerInput();
         VelocityJump();
-        ChangeSpeed();
     }
 
     void FixedUpdate()
     {
         AddForceMove();
         ControlGravity();
+        ChangeSpeed();
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class PlayerMove2D : MonoBehaviour
         _wallkick = GetComponent<Nitsuma.WallKick>();
         _grapple = GetComponent<Grapple>();
         _sliding = GetComponent<Sliding>();
-        _slider.value = _accelerationValue;
+        //_slider.value = _accelerationValue;
         _currentSpeed = _normalSpeed;
 
         if (_isAccelerator)
@@ -104,26 +104,11 @@ public class PlayerMove2D : MonoBehaviour
             _sprite.color = _playerColorList[Random.Range(0, _playerColorList.Length)];
         }
 
-        //Sliderをセットするのイベントを呼ぶ
-        RaiseEventOptions target = new RaiseEventOptions();
-        target.Receivers = ReceiverGroup.All;
-        SendOptions sendOptions = new SendOptions();
-        PhotonNetwork.RaiseEvent(5, null, target, sendOptions);
-
-        //var s = FindObjectsOfType<Slider>();
-
-        //foreach (var slider in s)
-        //{
-        //    var view = slider.gameObject.GetPhotonView();
-
-        //    if (view.IsMine)
-        //    {
-        //        _slider = slider;
-        //        _slider.value = 0;
-        //        //Debug.LogError(view.ViewID);
-        //        return;
-        //    }
-        //}
+        ////Sliderをセットするのイベントを呼ぶ
+        //RaiseEventOptions target = new RaiseEventOptions();
+        //target.Receivers = ReceiverGroup.All;
+        //SendOptions sendOptions = new SendOptions();
+        //PhotonNetwork.RaiseEvent(5, null, target, sendOptions);
     }
 
     /// <summary>
@@ -254,6 +239,28 @@ public class PlayerMove2D : MonoBehaviour
         else
         {
             _rb.gravityScale = _groundDrag;
+        }
+    }
+
+    [PunRPC]
+    void SetSlider()
+    {
+        var sliders = FindObjectsOfType<Slider>();
+
+        foreach (var slider in sliders)
+        {
+            var view = slider.gameObject.GetPhotonView();
+
+            if (view && view.IsMine)
+            {
+                _slider = slider;
+                _slider.value = _accelerationValue;
+
+                var text = _slider.GetComponentInChildren<Text>();
+                var n = PhotonNetwork.LocalPlayer.ActorNumber;
+                text.text = $"Plsyer{n}";
+                return;
+            }
         }
     }
 
