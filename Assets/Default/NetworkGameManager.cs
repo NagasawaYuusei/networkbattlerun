@@ -103,6 +103,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     /// </summary>
     private void SpawnPlayer()
     {
+        GameManager.Instance.OffWinnerText();
         // プレイヤーをどこに spawn させるか決める
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;    // 自分の ActorNumber を取得する。なお ActorNumber は「1から」入室順に振られる。
         Debug.Log("My ActorNumber: " + actorNumber);
