@@ -14,9 +14,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     //Singlton化
     public static GameManager Instance;
-    CameraOutKill _killZone;
-
-    [SerializeField]HorizontalLayoutGroup _horizontalLayoutGroup;
 
     void Awake()
     {
@@ -28,10 +25,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         Instance = this;
     }
 
+    CameraOutKill _killZone;
+
+    [SerializeField] HorizontalLayoutGroup _horizontalLayoutGroup;
+    [SerializeField] Text _winnerText;
     bool _owner;
     bool _isDuringGame;
     [SerializeField] Button _gameStartButton;
-    //[SerializeField] Text _winnerText;
 
     public bool Owner => _owner;
     public bool IsDuringGame => _isDuringGame;
@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         _gameStartButton.gameObject.SetActive(true);
         _owner = true;
+    }
+
+    public void OffWinnerText()
+    {
+        _winnerText.gameObject.SetActive(false);
     }
 
     public void GameStart()
@@ -67,6 +72,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 PhotonView view = players[0].GetPhotonView();
                 print($"Player {view.OwnerActorNr} win");
+                _winnerText.gameObject.SetActive(true);
+                _winnerText.text = $"Player{view.OwnerActorNr} Win";
             }
         }
         //カメラが切り替わった時

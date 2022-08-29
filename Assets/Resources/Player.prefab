@@ -132,11 +132,10 @@ MonoBehaviour:
   _acceleratorSpeed: 30
   _accelerationMultiplication: 2
   _decelerationMultiplication: 10
-  _accelerationValue: 0
   _maxAccelerationValue: 100
   _changeSpeed: 10
   _changeSpeedValue: 10
-  _slider: {fileID: 0}
+  _slider: {fileID: 4183624072490316390, guid: 8d384c6564fb12943aaa898291bd58ae, type: 3}
   _addValue: 3
   _jumpPower: 1
   _maxJumpCount: 1
