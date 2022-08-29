@@ -132,8 +132,12 @@ MonoBehaviour:
   _acceleratorSpeed: 30
   _accelerationMultiplication: 2
   _decelerationMultiplication: 10
+  _accelerationValue: 0
   _maxAccelerationValue: 100
-  _changeSpeedMultiplication: 10
+  _changeSpeed: 10
+  _changeSpeedValue: 10
+  _slider: {fileID: 0}
+  _addValue: 3
   _jumpPower: 1
   _maxJumpCount: 1
   _isControlDrag: 1
@@ -145,6 +149,7 @@ MonoBehaviour:
   - {r: 0.04489374, g: 0, b: 1, a: 1}
   - {r: 0, g: 0.6792453, b: 0.073283054, a: 1}
   _isOnline: 1
+  _isAccelerator: 0
 --- !u!114 &4358954917876250369
 MonoBehaviour:
   m_ObjectHideFlags: 0
