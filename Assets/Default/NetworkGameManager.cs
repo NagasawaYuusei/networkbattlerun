@@ -133,12 +133,6 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     private void SpawnSlider()
     {
         GameObject slider = PhotonNetwork.Instantiate(_playerSliderName, _sliderPos.position, _sliderPos.rotation);
-
-        //Sliderをセットするのイベントを呼ぶ
-        RaiseEventOptions target = new RaiseEventOptions();
-        target.Receivers = ReceiverGroup.All;
-        SendOptions sendOptions = new SendOptions();
-        PhotonNetwork.RaiseEvent(5, null, target, sendOptions);
     }
 
     void LeftRoomPlayer()

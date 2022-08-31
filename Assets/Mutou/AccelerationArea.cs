@@ -8,7 +8,7 @@ public class AccelerationArea : MonoBehaviour
     [SerializeField] Vector2Int _area;
     bool _isCheck;
 
-    private void Update()
+    private void FixedUpdate()
     {
         _isCheck = CheckArea();
     }
