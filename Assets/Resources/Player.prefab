@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 7981768130315893617}
   - component: {fileID: -5774587294187556297}
   - component: {fileID: 7707902325820425575}
+  - component: {fileID: 3279257620927632815}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -135,6 +136,7 @@ MonoBehaviour:
   _maxAccelerationValue: 100
   _changeSpeed: 10
   _changeSpeedValue: 10
+  _slider: {fileID: 0}
   _addValue: 3
   _jumpPower: 1
   _maxJumpCount: 1
@@ -211,8 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f984ecd02f617c444b5960c29866d998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slidingTime: 2
-  _speed: 20
+  _slidingTime: 1
+  _speed: 10
 --- !u!114 &390466665230444578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,3 +396,23 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 0
   m_Distance: 5
   m_MaxDistanceOnly: 0
+--- !u!95 &3279257620927632815
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4358954917876250427}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9134bbd9979921c438fa37bdeebff7c0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
