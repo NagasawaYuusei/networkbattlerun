@@ -9,6 +9,7 @@ public class CameraOutKill : MonoBehaviour
     Camera targetCamera; // 映っているか判定するカメラへの参照
     [SerializeField]
     List<PlayerMove2D> targetObjs; // 映っているか判定するPlayerへの参照。inspectorで指定する
+    [SerializeField] GameObject _loseTextGo;
     
 
     Rect rect = new Rect(-0.05f, -0.05f, 1, 1); // 画面内か判定するためのRect
@@ -48,6 +49,7 @@ public class CameraOutKill : MonoBehaviour
 
                 if (view && view.IsMine)
                 {
+                    _loseTextGo.SetActive(true);
                     // イベントコード2はリタイアを表す
                     RaiseEventOptions target = new RaiseEventOptions();
                     target.Receivers = ReceiverGroup.All;

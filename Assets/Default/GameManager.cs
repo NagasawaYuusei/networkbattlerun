@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     bool _owner;
     bool _isDuringGame;
     [SerializeField] Button _gameStartButton;
+    [SerializeField] CountDown _cd;
 
     public bool Owner => _owner;
     public bool IsDuringGame => _isDuringGame;
@@ -48,6 +49,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             _winnerText.gameObject.SetActive(false);
         }
+    }
+
+    public void CanPlayerMove()
+    {
+        _isDuringGame = true;
     }
 
     public void GameStart()
@@ -99,7 +105,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 _killZone.AddPlayer(player);
             }
             _gameStartButton.gameObject.SetActive(false);
-            _isDuringGame = true;
+            _cd.CountDownStart();
 
 
             //var players = FindObjectsOfType<PlayerMove2D>();
