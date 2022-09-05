@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         PhotonNetwork.RaiseEvent(4, null, target, sendOptions);
 
         //Sliderをセットするのイベントを呼ぶ
-        PhotonNetwork.RaiseEvent(5, null, target, sendOptions);
+        //PhotonNetwork.RaiseEvent(5, null, target, sendOptions);
     }
 
     void IOnEventCallback.OnEvent(EventData photonEvent)
@@ -102,19 +102,19 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             _isDuringGame = true;
 
 
-            var players = FindObjectsOfType<PlayerMove2D>();
+            //var players = FindObjectsOfType<PlayerMove2D>();
 
-            //Playerに参照を渡す
-            foreach (var player in players)
-            {
-                var view = player.gameObject.GetPhotonView();
+            ////Playerに参照を渡す
+            //foreach (var player in players)
+            //{
+            //    var view = player.gameObject.GetPhotonView();
 
-                if (view && view.IsMine)
-                {
-                    view.RPC("SetSlider", RpcTarget.All); //全員に知らせる
-                    return;
-                }
-            }
+            //    if (view && view.IsMine)
+            //    {
+            //        view.RPC("SetSlider", RpcTarget.All); //全員に知らせる
+            //        break;
+            //    }
+            //}
         }
         //Sliderの同期（作成時）
         if(photonEvent.Code == 5)

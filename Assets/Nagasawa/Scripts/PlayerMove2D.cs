@@ -32,7 +32,7 @@ public class PlayerMove2D : MonoBehaviour
     [SerializeField] float _maxAccelerationValue = 100f;
     [SerializeField, Tooltip("加速仕切るまでの速度")] float _changeSpeed = 10f;
     [SerializeField, Tooltip("accelerationValueを減らす速度")] float _changeSpeedValue = 10f;
-    Slider _slider;
+    [SerializeField]Slider _slider;
     [SerializeField, Tooltip("changeSpeedを増加させる値"), Range(0, 100)] float _addValue = 3f;
 
     [Header("JumpSettings")]
@@ -259,7 +259,7 @@ public class PlayerMove2D : MonoBehaviour
                 var text = _slider.GetComponentInChildren<Text>();
                 var n = PhotonNetwork.LocalPlayer.ActorNumber;
                 text.text = $"Plsyer{n}";
-                return;
+                break;
             }
         }
     }
