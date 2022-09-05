@@ -12,7 +12,6 @@ public class Grapple : MonoBehaviour
     Rigidbody2D _rb;
     Vector3 _hitPoint;
     Vector3 _playerPos;
-    Vector3? _playerCurrentPos;
 
     LineRenderer _lr;
     DistanceJoint2D _dj;
@@ -21,6 +20,9 @@ public class Grapple : MonoBehaviour
     Vector2 _grappleVec;
 
     bool _currentGrapple;
+
+    float? _lastSpeedX;
+    float? _lastSpeedY;
 
     public bool CurrentGrapple => _currentGrapple;
 
@@ -41,15 +43,6 @@ public class Grapple : MonoBehaviour
         if (_currentGrapple)
         {
             DrawLine();
-        }
-
-        if(_currentGrapple)
-        {
-            if(_playerCurrentPos == transform.position)
-            {
-                _currentGrapple = false;
-                FinishGrapple();
-            }
         }
 
         if (_currentGrapple && OverGrapple(_grappleVec))
@@ -116,7 +109,6 @@ public class Grapple : MonoBehaviour
     void GrappleMove()
     {
         Vector2 vec = new Vector2(_grappleVec.x * _grappleSpeed, _rb.velocity.y);
-        //_rb.AddForce(vec);
         _rb.velocity = vec;
     }
 
@@ -124,7 +116,6 @@ public class Grapple : MonoBehaviour
     {
         _dj.enabled = false;
         _lr.enabled = false;
-        _playerCurrentPos = null;
         Destroy(_currentGrappleTip);
     }
 
@@ -137,7 +128,6 @@ public class Grapple : MonoBehaviour
     bool OverGrapple(Vector2 vec)
     {
         bool isRight = vec.x > 0;
-        _playerCurrentPos = transform.position;
         if (isRight)
         {
             if (transform.position.x > _hitPoint.x + ((_hitPoint.x - _playerPos.x) / 2))
@@ -151,6 +141,11 @@ public class Grapple : MonoBehaviour
             {
                 return true;
             }
+        }
+
+        if(transform.position.y + 0.51f > _hitPoint.y)
+        {
+            return true;
         }
         return false;
     }

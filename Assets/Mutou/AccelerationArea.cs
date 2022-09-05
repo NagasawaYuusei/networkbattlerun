@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class AccelerationArea : MonoBehaviour
 {
     [SerializeField] Vector2Int _area;
-    [SerializeField] float _multiplication = 0.1f;
-    [SerializeField] float _addValue = 3f;
     bool _isCheck;
 
-    private void Update()
+    private void FixedUpdate()
     {
         _isCheck = CheckArea();
+    }
+    private void OnValidate()
+    {
+        this.transform.localScale = new Vector3(_area.x, _area.y, 1);
     }
     bool CheckArea()
     {
@@ -19,11 +22,11 @@ public class AccelerationArea : MonoBehaviour
 
         foreach(var go in check)
         {
-            var p = go.GetComponent<PlayerMove2D>();
+            var view = go.gameObject.GetPhotonView();
 
-            if(p)
+            if(view && view.IsMine)
             {
-                p.AddAccelerationValue(_addValue * _multiplication * Time.deltaTime);
+                view.RPC("IncreaseAccelerationValue", RpcTarget.All); //‘Sˆõ‚É’m‚ç‚¹‚é
                 return true;
             }
         }

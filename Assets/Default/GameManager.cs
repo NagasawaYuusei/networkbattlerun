@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     //Singlton化
     public static GameManager Instance;
-    CameraOutKill _killZone;
+
     void Awake()
     {
         if (Instance)
@@ -25,10 +25,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         Instance = this;
     }
 
+    CameraOutKill _killZone;
+
+    [SerializeField] HorizontalLayoutGroup _horizontalLayoutGroup;
+    [SerializeField] Text _winnerText;
     bool _owner;
     bool _isDuringGame;
     [SerializeField] Button _gameStartButton;
-    //[SerializeField] Text _winnerText;
 
     public bool Owner => _owner;
     public bool IsDuringGame => _isDuringGame;
@@ -37,6 +40,14 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         _gameStartButton.gameObject.SetActive(true);
         _owner = true;
+    }
+
+    public void OffWinnerText()
+    {
+        if (_winnerText)
+        {
+            _winnerText.gameObject.SetActive(false);
+        }
     }
 
     public void GameStart()
@@ -48,6 +59,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         target.Receivers = ReceiverGroup.All;
         SendOptions sendOptions = new SendOptions();
         PhotonNetwork.RaiseEvent(4, null, target, sendOptions);
+
+        //Sliderをセットするのイベントを呼ぶ
+        PhotonNetwork.RaiseEvent(5, null, target, sendOptions);
     }
 
     void IOnEventCallback.OnEvent(EventData photonEvent)
@@ -64,6 +78,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 PhotonView view = players[0].GetPhotonView();
                 print($"Player {view.OwnerActorNr} win");
+                _winnerText.gameObject.SetActive(true);
+                _winnerText.text = $"Player{view.OwnerActorNr} Win";
             }
         }
         //カメラが切り替わった時
@@ -84,6 +100,31 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
             _gameStartButton.gameObject.SetActive(false);
             _isDuringGame = true;
+
+
+            var players = FindObjectsOfType<PlayerMove2D>();
+
+            //Playerに参照を渡す
+            foreach (var player in players)
+            {
+                var view = player.gameObject.GetPhotonView();
+
+                if (view && view.IsMine)
+                {
+                    view.RPC("SetSlider", RpcTarget.All); //全員に知らせる
+                    return;
+                }
+            }
+        }
+        //Sliderの同期（作成時）
+        if(photonEvent.Code == 5)
+        {
+            var s = FindObjectsOfType<Slider>();
+
+            foreach(var slider in s)
+            {
+                slider.transform.SetParent(_horizontalLayoutGroup.transform);
+            }
         }
     }
 }

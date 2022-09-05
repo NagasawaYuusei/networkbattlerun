@@ -4,6 +4,7 @@ using UnityEngine;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime 用のクラスを継承する
 {
@@ -11,6 +12,14 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     [SerializeField] string _playerPrefabName = "Prefab";
     /// <summary>プレイヤーを生成する場所を示すアンカーのオブジェクト</summary>
     [SerializeField] Transform[] _spawnPositions = default;
+    /// <summary>
+    /// 加速ゲージの名前
+    /// </summary>
+    [SerializeField] string _playerSliderName = "Slider";
+    /// <summary>
+    /// 加速ゲージの親オブジェクト
+    /// </summary>
+    [SerializeField] RectTransform _sliderPos;
 
     private void Awake()
     {
@@ -95,6 +104,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     /// </summary>
     private void SpawnPlayer()
     {
+        GameManager.Instance.OffWinnerText();
         // プレイヤーをどこに spawn させるか決める
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;    // 自分の ActorNumber を取得する。なお ActorNumber は「1から」入室順に振られる。
         Debug.Log("My ActorNumber: " + actorNumber);
@@ -102,6 +112,8 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
 
         // プレイヤーを生成し、他のクライアントと同期する
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, spawnPoint.rotation);
+        SpawnSlider();
+
         /* **************************************************
          * ルームに参加している人数が最大に達したら部屋を閉じる（参加を締め切る）
          * 部屋を閉じないと、最大人数から減った時に次のユーザーが入ってきてしまう。
@@ -117,6 +129,12 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
             GameManager.Instance.GameStart();
         }
     }
+
+    private void SpawnSlider()
+    {
+        GameObject slider = PhotonNetwork.Instantiate(_playerSliderName, _sliderPos.position, _sliderPos.rotation);
+    }
+
     void LeftRoomPlayer()
     {
         var players = GameObject.FindGameObjectsWithTag("Player");
