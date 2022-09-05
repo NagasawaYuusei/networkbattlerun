@@ -35,7 +35,7 @@ public class Grapple : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))//GetButtonに変えたい
+        if (Input.GetKeyDown(KeyCode.RightArrow))//GetButtonに変えたい
         {
             StartGrapple();
         }

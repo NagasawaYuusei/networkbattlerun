@@ -524,7 +524,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u79FB\u52D5/AD\n\u30B8\u30E3\u30F3\u30D7/Space\n\u30B9\u30E9\u30A4\u30C7\u30A3\u30F3\u30B0/S\n\u30B0\u30E9\u30C3\u30D7\u30EB/Ctrl\n\u30A2\u30AF\u30BB\u30E9\u30EC\u30FC\u30C8/W"
+  m_Text: "\u79FB\u52D5/AD\n\u30B8\u30E3\u30F3\u30D7/Space\n\u30A2\u30AF\u30BB\u30E9\u30EC\u30FC\u30C8/\u2191\n\u30B9\u30E9\u30A4\u30C7\u30A3\u30F3\u30B0/\u2193\n\u30B0\u30E9\u30C3\u30D7\u30EB/\u2192"
 --- !u!222 &284071131
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -704,6 +704,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Game
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 708161290}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &334531490
@@ -1013,6 +1025,18 @@ MonoBehaviour:
           m_StringArgument: Title
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 708161290}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &420579326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1247,6 +1271,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Game
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 708161290}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &544945244
@@ -2003,6 +2039,7 @@ MonoBehaviour:
   _winnerText: {fileID: 1725493459}
   _gameStartButton: {fileID: 940742569}
   _cd: {fileID: 708161292}
+  _loseText: {fileID: 2024005861}
 --- !u!114 &708161291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3967,6 +4004,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Title
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 708161290}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LeaveRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1716867434
