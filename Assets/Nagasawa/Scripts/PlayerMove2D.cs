@@ -118,7 +118,7 @@ public class PlayerMove2D : MonoBehaviour
     {
         _inputHorizontal = Input.GetAxisRaw("Horizontal");
         _isJumpInput = Input.GetButtonDown("Jump");
-        _isAccelerationInput = Input.GetKey(KeyCode.W);
+        _isAccelerationInput = Input.GetKey(KeyCode.UpArrow);
     }
 
     /// <summary>
