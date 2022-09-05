@@ -11,16 +11,18 @@ public class Sliding : MonoBehaviour
     float _lastX = 0f;
     Rigidbody2D _rb2d;
     PlayerMove2D _playerMove;
+    Animator _anim;
     /// <summary>
     /// スライディングしているかどうか
     /// </summary>
-    public bool IsSliding { get => _isSliding;}
+    public bool IsSliding { get => _isSliding; }
 
     // Start is called before the first frame update
     void Start()
     {
         _rb2d = GetComponent<Rigidbody2D>();
         _playerMove = GetComponent<PlayerMove2D>();
+        _anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class Sliding : MonoBehaviour
     {
         var h = Input.GetAxisRaw("Horizontal");
         var dir = new Vector2(h, 0);
-        if (h != 0　&& !_isSliding)
+        if (h != 0 && !_isSliding)
         {
             _lastX = h;
         }
@@ -36,8 +38,13 @@ public class Sliding : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S) && dir != Vector2.zero && !_isSliding)
         {
             if (!_playerMove.IsGrounded) { return; }
+            _anim.Play("Sliding");
             _isSliding = true;
-            StartCoroutine(DelayMethod(_slidingTime, () => _isSliding = false));
+            StartCoroutine(DelayMethod(_slidingTime, () =>
+            {
+                _anim.Play("SlidingEnd");
+                _isSliding = false;
+            }));
         }
     }
 
