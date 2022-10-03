@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     bool _isDuringGame;
     [SerializeField] Button _gameStartButton;
     [SerializeField] CountDown _cd;
+    [SerializeField] Text _loseText;
 
     public bool Owner => _owner;
     public bool IsDuringGame => _isDuringGame;
@@ -58,6 +59,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void GameStart()
     {
+        var players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length == 1)
+        {
+            return;
+        }
         Debug.Log("Closing Room");
         PhotonNetwork.CurrentRoom.IsOpen = false;
         //4 => GameStart
@@ -82,10 +88,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             if (players.Length == 1)
             {
+                _loseText.gameObject.SetActive(false);
                 PhotonView view = players[0].GetPhotonView();
                 print($"Player {view.OwnerActorNr} win");
                 _winnerText.gameObject.SetActive(true);
                 _winnerText.text = $"Player{view.OwnerActorNr} Win";
+
             }
         }
         //カメラが切り替わった時
@@ -123,14 +131,19 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             //}
         }
         //Sliderの同期（作成時）
-        if(photonEvent.Code == 5)
+        if (photonEvent.Code == 5)
         {
             var s = FindObjectsOfType<Slider>();
 
-            foreach(var slider in s)
+            foreach (var slider in s)
             {
                 slider.transform.SetParent(_horizontalLayoutGroup.transform);
             }
         }
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
     }
 }

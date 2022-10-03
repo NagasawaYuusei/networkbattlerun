@@ -35,7 +35,7 @@ public class Sliding : MonoBehaviour
             _lastX = h;
         }
 
-        if (Input.GetKeyDown(KeyCode.S) && dir != Vector2.zero && !_isSliding)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && dir != Vector2.zero && !_isSliding)
         {
             if (!_playerMove.IsGrounded) { return; }
             _anim.Play("Sliding");
