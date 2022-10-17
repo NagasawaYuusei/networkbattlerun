@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Itembase : MonoBehaviour
 {
-    public abstract void GetItem();
+    public abstract void Use();
 }
