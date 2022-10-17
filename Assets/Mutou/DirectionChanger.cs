@@ -11,6 +11,8 @@ using ExitGames.Client.Photon;
 [RequireComponent(typeof(BoxCollider2D))]
 public class DirectionChanger : MonoBehaviour
 {
+    [SerializeField, Tooltip("")] MoveDirection _direction = MoveDirection.Right;
+
     Collider2D _col;
 
     private void Awake()
@@ -42,9 +44,19 @@ public class DirectionChanger : MonoBehaviour
         }
 
         //ローカルプレイヤーの移動方向を変更する
-        if(view && view.IsMine)
+        if (player.MoveDirection != _direction)
         {
-            view.RPC("ChangeDirection", RpcTarget.All);
+            var n = 0;
+
+            if(_direction == MoveDirection.Left)
+            {
+                n = 1;
+            }
+
+            if (view && view.IsMine)
+            {
+                view.RPC("ChangeDirection", RpcTarget.All, n);
+            }
         }
     }
 }

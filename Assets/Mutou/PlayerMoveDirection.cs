@@ -21,15 +21,19 @@ public class PlayerMoveDirection : MonoBehaviour
 
     /// <summary>
     /// ローカルプレイヤーの移動方向を変更するRPC
+    /// <code>
+    /// 引数０ = Right
+    /// 引数１ = Left
+    /// </code>
     /// </summary>
     [PunRPC]
-    public void ChangeDirection()
+    public void ChangeDirection(int number)
     {
-        if(_moveDirection == MoveDirection.Left)
+        if(number == 0)
         {
             _moveDirection = MoveDirection.Right;
         }
-        else
+        else if(number == 1)
         {
             _moveDirection = MoveDirection.Left;
         }
