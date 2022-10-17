@@ -112,6 +112,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
 
         // プレイヤーを生成し、他のクライアントと同期する
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, spawnPoint.rotation);
+        player.transform.GetChild(0).gameObject.SetActive(true);
         //SpawnSlider();
 
         /* **************************************************
