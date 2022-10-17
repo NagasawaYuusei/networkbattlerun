@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpeedUPItem : Itembase
 {
-    public override void GetItem()
+    public override void Use()
     {
         Debug.Log("a");
     }

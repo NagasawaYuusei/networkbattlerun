@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestItem : Itembase
 {
-    public override void GetItem()
+    public override void Use()
     {
         Debug.Log("b");
     }

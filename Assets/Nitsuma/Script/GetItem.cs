@@ -22,6 +22,6 @@ public class GetItem : MonoBehaviour
     {
         var num = Random.Range(0, _items.Count);
 
-        _items[num].GetItem();
+        _items[num].Use();
     }
 }
