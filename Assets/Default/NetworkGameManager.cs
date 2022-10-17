@@ -239,6 +239,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     /// <summary>マスタークライアントが変わった時</summary>
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
+        PhotonNetwork.CurrentRoom.IsOpen = false;
         Debug.Log("OnMasterClientSwitched to: " + newMasterClient.NickName);
     }
 

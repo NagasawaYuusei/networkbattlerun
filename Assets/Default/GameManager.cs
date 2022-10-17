@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     void Awake()
     {
+        Debug.Log("gm");
         if (Instance)
         {
             Destroy(this);
