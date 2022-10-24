@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     public void GameStart()
     {
         var players = GameObject.FindGameObjectsWithTag("Player");
+        //PhotonNetwork.IsMessageQueueRunning = true;(ここ改良)
         if (players.Length == 1)
         {
             return;

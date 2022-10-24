@@ -5,6 +5,7 @@ using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime 用のクラスを継承する
 {
@@ -23,7 +24,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
 
     private void Awake()
     {
-        // シーンの自動同期は無効にする（シーン切り替えがない時は意味はない）
+        // シーンの自動同期は無効にする（シーン切り替えがない時は意味はない）わんちゃんここがダメ
         PhotonNetwork.AutomaticallySyncScene = false;
     }
 
@@ -104,6 +105,10 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     /// </summary>
     private void SpawnPlayer()
     {
+        //PhotonNetwork.IsMessageQueueRunning = false;
+
+        //SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+
         GameManager.Instance.OffWinnerText();
         // プレイヤーをどこに spawn させるか決める
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;    // 自分の ActorNumber を取得する。なお ActorNumber は「1から」入室順に振られる。
@@ -113,6 +118,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
         // プレイヤーを生成し、他のクライアントと同期する
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, spawnPoint.rotation);
         player.transform.GetChild(0).gameObject.SetActive(true);
+        Debug.Log("SpawnPlayer");
         //SpawnSlider();
 
         /* **************************************************
@@ -140,7 +146,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     {
         var players = GameObject.FindGameObjectsWithTag("Player");
 
-        if(players.Length >= 1)
+        if (players.Length >= 1)
         {
             Debug.Log("GameSet");
         }
