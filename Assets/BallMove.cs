@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallMove : MonoBehaviour
+public class BallMove : Itembase
 {
     [SerializeField]
     float _speed = 3f;
+    [SerializeField]
+    Sprite _sprite;
     [SerializeField]
     float _dis = 1.2f;
     [SerializeField]
@@ -52,5 +54,10 @@ public class BallMove : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == _tag) { Destroy(gameObject); }
+    }
+
+    public override void Use()
+    {
+        throw new System.NotImplementedException();
     }
 }

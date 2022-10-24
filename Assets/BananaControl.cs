@@ -7,6 +7,8 @@ public class BananaControl : MonoBehaviour
     [SerializeField]
     float _power = 3f;
     [SerializeField]
+    Sprite _sprite;
+    [SerializeField]
     Vector2 _throwDir;
     [SerializeField]
     string _tag;
