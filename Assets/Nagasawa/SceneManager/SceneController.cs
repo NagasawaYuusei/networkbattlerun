@@ -6,7 +6,7 @@ public class SceneController : MonoBehaviour
     {
         FadeController.StartFadeIn();
     }
-    public void ChangeScene(string target)
+    public static void ChangeScene(string target)
     {
         SceneChange.LoadScene(target);
     }
