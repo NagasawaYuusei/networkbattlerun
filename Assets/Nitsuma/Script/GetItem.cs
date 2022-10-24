@@ -8,6 +8,8 @@ public class GetItem : MonoBehaviour
     List<Itembase> _items = new List<Itembase>();
     readonly SpeedUPItem _speedUPItem = new SpeedUPItem();
     readonly TestItem _testItem = new TestItem();
+    readonly BallMove _greenItem = new BallMove();
+    readonly BananaControl _bananaItem = new BananaControl();
 
     [SerializeField] string _itemTag = "";
     Itembase _currentItem;
@@ -16,6 +18,8 @@ public class GetItem : MonoBehaviour
     {
         _items.Add(_speedUPItem);
         _items.Add(_testItem);
+        _items.Add(_greenItem);
+        _items.Add(_bananaItem);
     }
 
     private void Update()

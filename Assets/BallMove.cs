@@ -7,8 +7,6 @@ public class BallMove : Itembase
     [SerializeField]
     float _speed = 3f;
     [SerializeField]
-    Sprite _sprite;
-    [SerializeField]
     float _dis = 1.2f;
     [SerializeField]
     LayerMask _layer;
@@ -21,6 +19,7 @@ public class BallMove : Itembase
     // Start is called before the first frame update
     void Start()
     {
+        
         _rb = GetComponent<Rigidbody2D>();
     }
 

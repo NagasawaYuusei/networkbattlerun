@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BananaControl : MonoBehaviour
+public class BananaControl : Itembase
 {
     [SerializeField]
     float _power = 3f;
-    [SerializeField]
-    Sprite _sprite;
     [SerializeField]
     Vector2 _throwDir;
     [SerializeField]
@@ -24,5 +22,10 @@ public class BananaControl : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == _tag) { Destroy(gameObject); }
+    }
+
+    public override void Use()
+    {
+        throw new System.NotImplementedException();
     }
 }
