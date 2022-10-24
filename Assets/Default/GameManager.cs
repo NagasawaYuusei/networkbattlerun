@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField] Button _gameStartButton;
     [SerializeField] CountDown _cd;
     [SerializeField] Text _loseText;
+    [SerializeField] NetworkGameManager _networkGameManager;
 
     public bool Owner => _owner;
     public bool IsDuringGame => _isDuringGame;
@@ -61,7 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     public void GameStart()
     {
         var players = GameObject.FindGameObjectsWithTag("Player");
-        //PhotonNetwork.IsMessageQueueRunning = true;(ここ改良)
+        PhotonNetwork.IsMessageQueueRunning = true;
         if (players.Length == 1)
         {
             return;
@@ -146,6 +147,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void LeaveRoom()
     {
-        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
     }
 }
