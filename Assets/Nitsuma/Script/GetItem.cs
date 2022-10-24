@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class GetItem : MonoBehaviour
 {
@@ -23,7 +24,12 @@ public class GetItem : MonoBehaviour
 
         if(Input.GetButtonDown("Fire1"))
         {
-            _currentItem.Use();
+            var view = this.gameObject.GetPhotonView();
+
+            if(view && view.IsMine)
+            {
+                view.RPC("UseItem", RpcTarget.All);
+            }
         }
     }
 
@@ -42,5 +48,11 @@ public class GetItem : MonoBehaviour
         var num = Random.Range(0, _items.Count);
 
         _currentItem = _items[num];
+    }
+
+    [PunRPC]
+    void UseItem()
+    {
+        _currentItem.Use();
     }
 }
