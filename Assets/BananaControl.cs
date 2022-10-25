@@ -10,12 +10,12 @@ public class BananaControl : Itembase
     Vector2 _throwDir;
     [SerializeField]
     string _tag;
-    MoveDirection _dir;
+    MoveDirection _dir = MoveDirection.Right;
     Rigidbody2D _rb;
     // Start is called before the first frame update
     void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
+        _rb = gameObject.AddComponent<Rigidbody2D>() as Rigidbody2D;
         _throwDir.x *= _dir == MoveDirection.Left? -1 : 1;
         _rb.velocity = _throwDir.normalized * _power;
     }
@@ -24,8 +24,9 @@ public class BananaControl : Itembase
         if (collision.gameObject.tag == _tag) { Destroy(gameObject); }
     }
 
-    public override void Use()
+    public override void Use(Vector3 pos)
     {
-        throw new System.NotImplementedException();
+        GameObject banana = Resources.Load<GameObject>("Banana");
+        Instantiate(banana, pos + new Vector3(1.5f,0),Quaternion.identity);
     }
 }
