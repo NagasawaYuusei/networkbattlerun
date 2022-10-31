@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5305792188824613156}
   - component: {fileID: 5305792188824613159}
   - component: {fileID: -3317852363613705969}
+  - component: {fileID: -4636758961261595963}
   m_Layer: 0
   m_Name: Banana
   m_TagString: Untagged
@@ -128,3 +129,24 @@ MonoBehaviour:
   _power: 3
   _throwDir: {x: 2, y: 1}
   _tag: Player
+--- !u!50 &-4636758961261595963
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5305792188824613152}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

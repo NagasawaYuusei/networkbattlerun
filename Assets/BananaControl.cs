@@ -15,7 +15,7 @@ public class BananaControl : Itembase
     // Start is called before the first frame update
     void Start()
     {
-        _rb = gameObject.AddComponent<Rigidbody2D>() as Rigidbody2D;
+        _rb = gameObject.GetComponent<Rigidbody2D>();
         _throwDir.x *= _dir == MoveDirection.Left? -1 : 1;
         _rb.velocity = _throwDir.normalized * _power;
     }
