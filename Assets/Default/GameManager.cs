@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField] CountDown _cd;
     [SerializeField] Text _loseText;
     [SerializeField] NetworkGameManager _networkGameManager;
+    [SerializeField] GameObject _waitText;
 
     public bool Owner => _owner;
     public bool IsDuringGame => _isDuringGame;
@@ -44,6 +45,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         _gameStartButton.gameObject.SetActive(true);
         _owner = true;
+    }
+
+    public void NotOwner()
+    {
+        _waitText.gameObject.SetActive(true);
     }
 
     public void OffWinnerText()
@@ -116,6 +122,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 _killZone.AddPlayer(player);
             }
             _gameStartButton.gameObject.SetActive(false);
+            _waitText.gameObject.SetActive(false);
             _cd.CountDownStart();
 
 
