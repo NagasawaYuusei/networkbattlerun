@@ -144,6 +144,10 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime ç
         {
             GameManager.Instance.MineOwner();
         }
+        else
+        {
+            GameManager.Instance.NotOwner();
+        }
 
         if (actorNumber > PhotonNetwork.CurrentRoom.MaxPlayers - 1)
         {
