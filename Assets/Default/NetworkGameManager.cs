@@ -24,13 +24,21 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
 
     private void Awake()
     {
-        // シーンの自動同期は無効にする（シーン切り替えがない時は意味はない）わんちゃんここがダメ
-        PhotonNetwork.AutomaticallySyncScene = false;
+        PhotonNetwork.AutomaticallySyncScene = true;
+        if(PhotonNetwork.IsConnected)
+        {
+            Reconnect();
+        }
     }
 
     private void Start()
     {
         // Photon に接続する
+        Init();
+    }
+
+    void Init()
+    {
         Connect("1.0"); // 1.0 はバージョン番号（同じバージョンを指定したクライアント同士が接続できる）
     }
 
@@ -44,6 +52,12 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
             PhotonNetwork.GameVersion = gameVersion;    // 同じバージョンを指定したもの同士が接続できる
             PhotonNetwork.ConnectUsingSettings();
         }
+    }
+
+    public void Reconnect()
+    {
+        PhotonNetwork.LeaveRoom();
+        Init();
     }
 
     /// <summary>
@@ -104,7 +118,7 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     /// プレイヤーを生成する
     /// </summary>
     private void SpawnPlayer()
-    {
+    { 
         //PhotonNetwork.IsMessageQueueRunning = false;
 
         //SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
