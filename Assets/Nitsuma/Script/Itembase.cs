@@ -9,5 +9,5 @@ public abstract class Itembase : MonoBehaviour
 
     public Sprite Sprite { get => _sprite; set => _sprite = value; }
 
-    public abstract void Use();
+    public abstract void Use(Vector3 pos);
 }

@@ -13,14 +13,13 @@ public class BallMove : Itembase
     int _count = 0;
     [SerializeField]
     string _tag;
-    MoveDirection _dir;
+    MoveDirection _dir = MoveDirection.Right;
     Rigidbody2D _rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        _rb = GetComponent<Rigidbody2D>();
+        _rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -55,8 +54,9 @@ public class BallMove : Itembase
         if (collision.gameObject.tag == _tag) { Destroy(gameObject); }
     }
 
-    public override void Use()
+    public override void Use(Vector3 pos)
     {
-        throw new System.NotImplementedException();
+        GameObject ball = Resources.Load<GameObject>("GreenBall");
+        Instantiate(ball, pos + new Vector3(1.5f, 0), Quaternion.identity);
     }
 }
