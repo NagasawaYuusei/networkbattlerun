@@ -3,6 +3,8 @@ using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using System.Collections;
+using System;
 
 public class PlayerMove2D : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class PlayerMove2D : MonoBehaviour
     Nitsuma.WallKick _wallkick;
     Grapple _grapple;
     Sliding _sliding;
+    bool _canMove = true;
 
     [Header("MoveSettings")]
     [Tooltip("通常時のスピード"), SerializeField] float _normalSpeed = 3;
@@ -32,7 +35,7 @@ public class PlayerMove2D : MonoBehaviour
     [SerializeField] float _maxAccelerationValue = 100f;
     [SerializeField, Tooltip("加速仕切るまでの速度")] float _changeSpeed = 10f;
     [SerializeField, Tooltip("accelerationValueを減らす速度")] float _changeSpeedValue = 10f;
-    [SerializeField]Slider _slider;
+    [SerializeField] Slider _slider;
     [SerializeField, Tooltip("changeSpeedを増加させる値"), Range(0, 100)] float _addValue = 3f;
 
     [Header("JumpSettings")]
@@ -75,6 +78,16 @@ public class PlayerMove2D : MonoBehaviour
         ChangeSpeed();
     }
 
+    public void DontMove(float time)
+    {
+        _canMove = false;
+        StartCoroutine(DelayMethod(time, () => _canMove = true));
+    }
+    IEnumerator DelayMethod(float seconds, Action action)
+    {
+        yield return new WaitForSeconds(seconds);
+        action?.Invoke();
+    }
     /// <summary>
     /// スタートで呼ばれるセットアップ
     /// </summary>
@@ -101,7 +114,7 @@ public class PlayerMove2D : MonoBehaviour
         }
         else
         {
-            _sprite.color = _playerColorList[Random.Range(0, _playerColorList.Length)];
+            _sprite.color = _playerColorList[UnityEngine.Random.Range(0, _playerColorList.Length)];
         }
 
         ////Sliderをセットするのイベントを呼ぶ
@@ -126,7 +139,7 @@ public class PlayerMove2D : MonoBehaviour
     /// </summary>
     void AddForceMove()
     {
-        if (_wallkick.IswallKick || _sliding.IsSliding || _grapple.CurrentGrapple) { return; }
+        if (_wallkick.IswallKick || _sliding.IsSliding || _grapple.CurrentGrapple || !_canMove) { return; }
 
         _addForceMoveMultiplier = (_inputHorizontal == 0) ? _decelerationMultiplication : _accelerationMultiplication;
 
@@ -146,7 +159,7 @@ public class PlayerMove2D : MonoBehaviour
     /// </summary>
     void VelocityJump()
     {
-        if (_isJumpInput && _jumpCount < _maxJumpCount)
+        if (_isJumpInput && _jumpCount < _maxJumpCount && _canMove)
         {
             _rb.velocity = new Vector3(_rb.velocity.x, _jumpPower * 10);
             _jumpCount++;
@@ -191,6 +204,8 @@ public class PlayerMove2D : MonoBehaviour
     /// </summary>
     void ChangeSpeed()
     {
+        if(!_canMove) { return; }
+
         if (_accelerationValue <= 0)
         {
             _accelerationValue = 0;
