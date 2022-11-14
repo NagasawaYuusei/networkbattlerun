@@ -14,13 +14,11 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
     /// <summary>プレイヤーを生成する場所を示すアンカーのオブジェクト</summary>
     [SerializeField] Transform[] _spawnPositions = default;
     /// <summary>
-    /// 加速ゲージの名前
+    /// アイテムUIの名前
     /// </summary>
-    [SerializeField] string _playerSliderName = "Slider";
-    /// <summary>
-    /// 加速ゲージの親オブジェクト
-    /// </summary>
-    [SerializeField] RectTransform _sliderPos;
+    [SerializeField] string _itemUIName = "ItemUI";
+
+    [SerializeField] RectTransform _imagePos;
 
     private void Awake()
     {
@@ -133,7 +131,11 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, spawnPoint.rotation);
         player.transform.GetChild(0).gameObject.SetActive(true);
         Debug.Log("SpawnPlayer");
-        //SpawnSlider();
+
+        var itemUI = PhotonNetwork.Instantiate(_itemUIName, _imagePos.transform.position, Quaternion.identity);
+        itemUI.transform.SetParent(_imagePos.transform);
+        var p = player.GetComponent<GetItem>();
+        p.ItemImage = itemUI.GetComponent<Image>();
 
         /* **************************************************
          * ルームに参加している人数が最大に達したら部屋を閉じる（参加を締め切る）
@@ -153,11 +155,6 @@ public class NetworkGameManager : MonoBehaviourPunCallbacks // Photon Realtime �
         {
             GameManager.Instance.GameStart();
         }
-    }
-
-    private void SpawnSlider()
-    {
-        GameObject slider = PhotonNetwork.Instantiate(_playerSliderName, _sliderPos.position, _sliderPos.rotation);
     }
 
     void LeftRoomPlayer()
