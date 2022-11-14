@@ -12,6 +12,8 @@ public class GetItem : MonoBehaviour
 
     [SerializeField] Image _itemImage;
 
+    public Image ItemImage { get => _itemImage; set => _itemImage = value; }
+
     private void Awake()
     {
 
@@ -26,9 +28,9 @@ public class GetItem : MonoBehaviour
             _currentItem.Use(this.transform.position);
             _currentItem = null;
 
-            if(_itemImage)
+            if(ItemImage)
             {
-                _itemImage.enabled = false;
+                ItemImage.enabled = false;
             }
         }
     }
@@ -51,10 +53,10 @@ public class GetItem : MonoBehaviour
 
         _currentItem = _items[num];
 
-        if(_itemImage)
+        if(ItemImage)
         {
-            _itemImage.enabled = true;
-            _itemImage.sprite = _currentItem?.Sprite;
+            ItemImage.enabled = true;
+            ItemImage.sprite = _currentItem?.Sprite;
         }
     }
 }
