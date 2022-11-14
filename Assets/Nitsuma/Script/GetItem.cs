@@ -1,53 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GetItem : MonoBehaviour
 {
-    [SerializeField]
-    List<Itembase> _items = new List<Itembase>();
-    readonly BallMove _greenItem = new BallMove();
-    readonly BananaControl _bananaItem = new BananaControl();
+    [SerializeField] List<Itembase> _items = new List<Itembase>();
 
     [SerializeField] string _itemTag = "";
+    Itembase _currentItem;
 
-    int ItemsIndex = -1;
+    [SerializeField] Image _itemImage;
 
     private void Awake()
     {
-        _items.Add(_greenItem);
-        _items.Add(_bananaItem);
+
     }
 
     private void Update()
     {
-        if (ItemsIndex < 0) return;
+        if (!_currentItem) return;
 
         if (Input.GetButtonDown("Fire1"))
         {
-            _items[ItemsIndex].Use(transform.position);
-            ItemsIndex = -1;
+            _currentItem.Use(this.transform.position);
+            _currentItem = null;
+
+            if(_itemImage)
+            {
+                _itemImage.enabled = false;
+            }
         }
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
 
-    //}
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag(_itemTag)) return;
+        if (!collision.CompareTag(_itemTag)) return;
+
+        Destroy(collision.gameObject);
 
         //ƒAƒCƒeƒ€‚ðŽ‚Á‚Ä‚¢‚½‚çŽæ“¾‚µ‚È‚¢
-        if (ItemsIndex >= 0) return;
+        if (_currentItem) return;
 
         RandamItemGet();
-
-        collision.gameObject.SetActive(false);
     }
 
     void RandamItemGet()
     {
         var num = Random.Range(0, _items.Count);
-        ItemsIndex = num;
+
+        _currentItem = _items[num];
+
+        if(_itemImage)
+        {
+            _itemImage.enabled = true;
+            _itemImage.sprite = _currentItem?.Sprite;
+        }
     }
 }
