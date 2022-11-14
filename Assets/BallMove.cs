@@ -51,7 +51,14 @@ public class BallMove : Itembase
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == _tag) { Destroy(gameObject); }
+        if (collision.gameObject.tag == _tag)
+        {
+            if (collision.gameObject.GetComponent<PlayerMove2D>())
+            {
+                collision.gameObject.GetComponent<PlayerMove2D>().DontMove(0.8f);
+            }
+            Destroy(gameObject);
+        }
     }
 
     public override void Use(Vector3 pos)

@@ -16,17 +16,24 @@ public class BananaControl : Itembase
     void Start()
     {
         _rb = gameObject.GetComponent<Rigidbody2D>();
-        _throwDir.x *= _dir == MoveDirection.Left? -1 : 1;
+        _throwDir.x *= _dir == MoveDirection.Left ? -1 : 1;
         _rb.velocity = _throwDir.normalized * _power;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == _tag) { Destroy(gameObject); }
+        if (collision.gameObject.tag == _tag)
+        {
+            if (collision.gameObject.GetComponent<PlayerMove2D>())
+            {
+                collision.gameObject.GetComponent<PlayerMove2D>().DontMove(0.8f);
+            }
+            Destroy(gameObject);
+        }
     }
 
     public override void Use(Vector3 pos)
     {
         GameObject banana = Resources.Load<GameObject>("Banana");
-        Instantiate(banana, pos + new Vector3(1.5f,0),Quaternion.identity);
+        Instantiate(banana, pos + new Vector3(1.5f, 0), Quaternion.identity);
     }
 }
