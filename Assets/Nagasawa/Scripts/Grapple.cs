@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public class Grapple : MonoBehaviour
     [SerializeField] GameObject _grappleTip;
     GameObject _currentGrappleTip;
     Vector2 _grappleVec;
+    PhotonView _photonView;
 
     bool _currentGrapple;
 
@@ -31,13 +33,15 @@ public class Grapple : MonoBehaviour
         _lr = GetComponent<LineRenderer>();
         _dj = GetComponent<DistanceJoint2D>();
         _rb = GetComponent<Rigidbody2D>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))//GetButtonに変えたい
         {
-            StartGrapple();
+            Debug.Log("押された");
+            _photonView.RPC("StartGrapple", RpcTarget.All);
         }
 
         if (_currentGrapple)
@@ -74,6 +78,7 @@ public class Grapple : MonoBehaviour
         }
     }
 
+    [PunRPC]
     void StartGrapple()
     {
         RaycastHit2D hit;
@@ -112,6 +117,7 @@ public class Grapple : MonoBehaviour
         _rb.velocity = vec;
     }
 
+    [PunRPC]
     void FinishGrapple()
     {
         _dj.enabled = false;
