@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField] Text _loseText;
     [SerializeField] NetworkGameManager _networkGameManager;
     [SerializeField] GameObject _waitText;
+    GamePhase _gamePhase;
 
     public bool Owner => _owner;
     public bool IsDuringGame => _isDuringGame;
@@ -63,6 +64,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     public void CanPlayerMove()
     {
         _isDuringGame = true;
+    }
+
+    public void GamePhaseChange(GamePhase gamePhase)
+    {
+
     }
 
     public void GameStart()
@@ -155,5 +161,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     public void LeaveRoom()
     {
         PhotonNetwork.Disconnect();
+    }
+
+    public enum GamePhase
+    {
+        GameReady,
+        InGame,
+        GameFinish
     }
 }
